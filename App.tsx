@@ -1,20 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import Entypo from '@expo/vector-icons/Entypo';
+import { View } from 'react-native';
+import { Provider } from 'react-redux';
 
 import { beforeRender, afterRender } from './src/bootstrap';
+import List from './src/screens/List';
+import store from './src/state/store';
 
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -52,12 +44,13 @@ export default function App() {
 
   return (
     <View
-      style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+      style={{ flex: 1 }}
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onLayout={onLayoutRootView}
     >
-      <Text>SplashScreen Demo! 👋</Text>
-      <Entypo name="rocket" size={30} />
+      <Provider store={store}>
+        <List />
+      </Provider>
     </View>
   );
 }
