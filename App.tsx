@@ -4,8 +4,8 @@ import { View } from 'react-native';
 import { Provider } from 'react-redux';
 
 import { beforeRender, afterRender } from './src/bootstrap';
-import List from './src/screens/List';
 import store from './src/state/store';
+import Screens from './src/screens';
 
 
 export default function App() {
@@ -49,7 +49,7 @@ export default function App() {
       onLayout={onLayoutRootView}
     >
       <Provider store={store}>
-        <List />
+        <Screens />
       </Provider>
     </View>
   );
