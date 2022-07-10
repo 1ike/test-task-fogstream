@@ -3,14 +3,17 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import CharacterListScreen from './CharacterListScreen';
+import CharacterScreen from './CharacterScreen';
+import { Character as CharacterType } from '../types';
 
 
-type StackParamList = {
+export type StackParamList = {
   TabNavigator: undefined;
+  Character: { character: CharacterType };
 };
 const Stack = createNativeStackNavigator<StackParamList>();
 
-type TabParamList = {
+export type TabParamList = {
   Characters: undefined;
 };
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -31,6 +34,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="TabNavigator" component={TabNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="Character" component={CharacterScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

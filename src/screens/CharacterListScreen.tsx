@@ -1,13 +1,17 @@
 import {
-  SafeAreaView, FlatList, View, Image, StyleSheet, StatusBar,
+  SafeAreaView, FlatList, View, Image, StyleSheet, StatusBar, TouchableOpacity,
 } from 'react-native';
 import { Card } from '@rneui/themed';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { PropsWithChildren } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 import { RootState, useAppDispatch, useAppSelector } from '../state/store';
 import { selectCharacters, requestFetchCharacters } from '../state/characters';
 import { Character } from '../types';
+import type { StackParamList } from '.';
 
 
 const avatarContainerBorderWidth = 5;
@@ -21,7 +25,13 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
   },
-  containerStyle: {
+  link: {
+    alignSelf: 'stretch',
+    margin: 15,
+    marginBottom: 0,
+    flexGrow: 1,
+  },
+  cardContainerStyle: {
     borderRadius: 5,
   },
   character: {
@@ -33,7 +43,7 @@ const styles = StyleSheet.create({
     height: avatarContainerDimension,
     borderWidth: avatarContainerBorderWidth,
     borderRadius: avatarContainerBorderRadius,
-    borderColor: 'green',
+    borderColor: 'lawngreen',
   },
   avatarDeadContainer: {
     borderColor: 'black',
@@ -50,18 +60,49 @@ const styles = StyleSheet.create({
 });
 
 
+type NavProps = NativeStackNavigationProp<StackParamList, 'Character'>;
+
+interface Params {
+  character: Character,
+}
+interface To {
+  routeName: keyof StackParamList,
+  params: Params,
+}
+interface Props {
+  to: To,
+}
+
+
+function CardLink({ to, children }: PropsWithChildren<Props>) {
+  const { routeName, params: { character } } = to;
+  const navigation = useNavigation<NavProps>();
+
+  const onPress = () => {
+    navigation.navigate(routeName, { character });
+  };
+
+  return (
+    <TouchableOpacity onPress={onPress}>
+      {children}
+    </TouchableOpacity>
+  );
+}
+
 const renderItem = ({ item: character }: { item: Character }) => (
-  <Card containerStyle={styles.containerStyle}>
-    <View style={styles.character}>
-      <View style={[styles.avatarContainer, character.status !== 'Alive' && styles.avatarDeadContainer]}>
-        <Image
-          style={styles.avatar}
-          source={{ uri: character.image }}
-        />
+  <CardLink to={{ routeName: 'Character', params: { character } }}>
+    <Card containerStyle={styles.cardContainerStyle}>
+      <View style={styles.character}>
+        <View style={[styles.avatarContainer, character.status !== 'Alive' && styles.avatarDeadContainer]}>
+          <Image
+            style={styles.avatar}
+            source={{ uri: character.image }}
+          />
+        </View>
+        <Card.Title style={styles.title}>{character.name}</Card.Title>
       </View>
-      <Card.Title style={styles.title}>{character.name}</Card.Title>
-    </View>
-  </Card>
+    </Card>
+  </CardLink>
 );
 
 
