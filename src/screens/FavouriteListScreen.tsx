@@ -4,7 +4,7 @@ import {
 
 import { useAppSelector } from '../state/store';
 import { selectFavourites } from '../state/favourites';
-import CharacterCardLink from '../components/CharacterCardLink';
+import CharacterLink from '../components/character/CharacterLink';
 
 
 const styles = StyleSheet.create({
@@ -22,7 +22,7 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={favourites}
-        renderItem={CharacterCardLink}
+        renderItem={CharacterLink}
         keyExtractor={(item) => String(item.id)}
       />
     </SafeAreaView>

@@ -1,6 +1,6 @@
 import { View, Image, StyleSheet } from 'react-native';
 
-import { Character } from '../types';
+import { Character } from '../../types';
 
 
 const avatarContainerBorderWidth = 5;

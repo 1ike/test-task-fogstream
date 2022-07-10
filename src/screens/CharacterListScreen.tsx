@@ -6,7 +6,7 @@ import { AnyAction } from 'redux';
 
 import { RootState, useAppDispatch, useAppSelector } from '../state/store';
 import { selectCharacters, requestFetchCharacters } from '../state/characters';
-import CharacterCardLink from '../components/CharacterCardLink';
+import CharacterLink from '../components/character/CharacterLink';
 
 
 const styles = StyleSheet.create({
@@ -32,7 +32,7 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={characters}
-        renderItem={CharacterCardLink}
+        renderItem={CharacterLink}
         keyExtractor={(item) => String(item.id)}
         onEndReachedThreshold={0.7}
         onEndReached={onEndReached}

@@ -2,7 +2,7 @@ import { View, StyleSheet, StatusBar } from 'react-native';
 import { Card } from '@rneui/themed';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import Avatar from '../components/Avatar';
+import Avatar from '../components/character/Avatar';
 import type { StackParamList } from '.';
 
 
