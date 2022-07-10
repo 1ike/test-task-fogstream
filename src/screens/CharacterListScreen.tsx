@@ -1,5 +1,5 @@
 import {
-  SafeAreaView, FlatList, View, Image, StyleSheet, StatusBar, TouchableOpacity,
+  SafeAreaView, FlatList, View, StyleSheet, StatusBar, TouchableOpacity,
 } from 'react-native';
 import { Card } from '@rneui/themed';
 import { ThunkDispatch } from 'redux-thunk';
@@ -10,15 +10,10 @@ import { useNavigation } from '@react-navigation/native';
 
 import { RootState, useAppDispatch, useAppSelector } from '../state/store';
 import { selectCharacters, requestFetchCharacters } from '../state/characters';
+import Avatar from '../components/Avatar';
 import { Character } from '../types';
 import type { StackParamList } from '.';
 
-
-const avatarContainerBorderWidth = 5;
-const avatarDimension = 50;
-const avatarBorderRadius = avatarDimension / 2;
-const avatarContainerDimension = avatarDimension + 2 * avatarContainerBorderWidth;
-const avatarContainerBorderRadius = avatarContainerDimension / 2;
 
 const styles = StyleSheet.create({
   container: {
@@ -37,21 +32,6 @@ const styles = StyleSheet.create({
   character: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  avatarContainer: {
-    width: avatarContainerDimension,
-    height: avatarContainerDimension,
-    borderWidth: avatarContainerBorderWidth,
-    borderRadius: avatarContainerBorderRadius,
-    borderColor: 'lawngreen',
-  },
-  avatarDeadContainer: {
-    borderColor: 'black',
-  },
-  avatar: {
-    width: avatarDimension,
-    height: avatarDimension,
-    borderRadius: avatarBorderRadius,
   },
   title: {
     marginBottom: 0,
@@ -93,12 +73,7 @@ const renderItem = ({ item: character }: { item: Character }) => (
   <CardLink to={{ routeName: 'Character', params: { character } }}>
     <Card containerStyle={styles.cardContainerStyle}>
       <View style={styles.character}>
-        <View style={[styles.avatarContainer, character.status !== 'Alive' && styles.avatarDeadContainer]}>
-          <Image
-            style={styles.avatar}
-            source={{ uri: character.image }}
-          />
-        </View>
+        <Avatar character={character} />
         <Card.Title style={styles.title}>{character.name}</Card.Title>
       </View>
     </Card>
