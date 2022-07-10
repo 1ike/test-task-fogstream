@@ -5,6 +5,7 @@ import { PropsWithChildren } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import Avatar from './Avatar';
+import FavouriteButton from './FavouriteButton';
 import { Character } from '../types';
 import type { StackParamList } from '../screens';
 
@@ -62,6 +63,7 @@ export default function CharacterCardLink({ item: character }: { item: Character
           <Avatar character={character} />
           <Card.Title style={styles.title}>{character.name}</Card.Title>
         </View>
+        <FavouriteButton onPress={() => {}} selected={false} />
       </Card>
     </CardLink>
   );

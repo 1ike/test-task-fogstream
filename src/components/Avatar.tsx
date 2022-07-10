@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     height: avatarContainerDimension,
     borderWidth: avatarContainerBorderWidth,
     borderRadius: avatarContainerBorderRadius,
-    borderColor: 'green',
+    borderColor: 'palegreen',
   },
   avatarDeadContainer: {
     borderColor: 'black',
