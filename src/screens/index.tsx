@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import CharacterListScreen from './CharacterListScreen';
+import FavouriteListScreen from './FavouriteListScreen';
 import CharacterScreen from './CharacterScreen';
 import { Character as CharacterType } from '../types';
 
@@ -15,6 +16,7 @@ const Stack = createNativeStackNavigator<StackParamList>();
 
 export type TabParamList = {
   Characters: undefined;
+  Favourites: undefined;
 };
 const Tab = createBottomTabNavigator<TabParamList>();
 
@@ -25,6 +27,7 @@ function TabNavigator() {
       screenOptions={{ headerShown: false }}
     >
       <Tab.Screen name="Characters" component={CharacterListScreen} />
+      <Tab.Screen name="Favourites" component={FavouriteListScreen} />
     </Tab.Navigator>
   );
 }

@@ -7,14 +7,18 @@ import { persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import charactersReducer from './characters';
+import favouritesReducer from './favourites';
 
 
 // const rootReducer = combineReducers({ characters: charactersReducer });
-const rootReducer = combineReducers({ characters: charactersReducer });
+const rootReducer = combineReducers({
+  characters: charactersReducer,
+  favourites: favouritesReducer,
+});
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: [],
+  whitelist: ['favourites'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
