@@ -3,7 +3,7 @@ import { AnyAction } from 'redux';
 import { Reducer } from 'react';
 import { Character } from '../types';
 import { fetchCharacters } from '../API';
-import type { AppDispatch, RootState } from './store';
+import type { AppDispatch, AppThunk, RootState } from './store';
 
 
 export const ADD_CHARACTERS = 'ADD_CHARACTERS';
@@ -45,7 +45,7 @@ const requestRejected = () => ({
 });
 
 
-export const requestFetchCharacters = () => (
+export const requestFetchCharacters = (): AppThunk => (
   (dispatch: AppDispatch, getState: () => RootState) => {
     const state = getState();
     const { page, requestStatus } = state.characters as CharactersState;

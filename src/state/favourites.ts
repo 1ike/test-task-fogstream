@@ -1,6 +1,7 @@
 import { AnyAction } from 'redux';
-
 import { Reducer } from 'react';
+import { createSelector } from 'reselect';
+
 import { Character } from '../types';
 import type { RootState } from './store';
 
@@ -11,7 +12,7 @@ export const addFavourite = (character: Character) => ({
   payload: character,
 });
 
-export const REMOVE_FAVOURITE = 'ADD_FAVOURITE';
+export const REMOVE_FAVOURITE = 'REMOVE_FAVOURITE';
 export const removeFavourite = (character: Character) => ({
   type: REMOVE_FAVOURITE,
   payload: character,
@@ -39,3 +40,20 @@ export default charactersReducer;
 
 
 export const selectFavourites = (state: RootState) => state.favourites as FavouritesState;
+
+const selectFavouriteIDs = createSelector(
+  selectFavourites,
+  (favourites) => favourites.map((favourite) => favourite.id),
+);
+
+export const makeSelectorIsFavourite = () => {
+  const isFavourite = createSelector(
+    [
+      selectFavouriteIDs,
+      (state, character: Character) => character,
+    ],
+    (favouritesIDs, character) => favouritesIDs.includes(character.id),
+  );
+
+  return isFavourite;
+};

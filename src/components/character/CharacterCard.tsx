@@ -5,7 +5,7 @@ import { Card } from '@rneui/themed';
 import { PropsWithChildren } from 'react';
 
 import Avatar from './Avatar';
-import FavouriteButton from '../FavouriteButton';
+import CharacterFavouriteButton from './CharacterFavouriteButton';
 import { Character } from '../../types';
 
 
@@ -43,7 +43,7 @@ export default function CharacterCard(
           <Avatar character={character} />
           <Card.Title style={styles.title}>{character.name}</Card.Title>
         </View>
-        <FavouriteButton onPress={() => { }} selected={false} />
+        <CharacterFavouriteButton character={character} />
       </View>
       {children}
     </Card>

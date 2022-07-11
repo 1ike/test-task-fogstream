@@ -1,3 +1,5 @@
+export type ID = number;
+
 export interface Origin {
   name: string;
   url: string;
@@ -9,7 +11,7 @@ export interface Location {
 }
 
 export interface Character {
-  id: number;
+  id: ID;
   name: string;
   status: string;
   image: string;
