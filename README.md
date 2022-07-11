@@ -70,6 +70,6 @@ react-native-fast-image
 
 ## Демо *
 
-[]() &nbsp; (при наличии установленного мобильного приложения Expo).  
+[https://expo.dev/@andyg/fogstream?serviceType=classic&distribution=expo-go](https://expo.dev/@andyg/fogstream?serviceType=classic&distribution=expo-go) &nbsp; (для работы понадобится мобильное приложение Expo, необходимо отсканировать QR код на этой странице).  
 
 \* &nbsp;  Со временем ссылка может перестать работать.
