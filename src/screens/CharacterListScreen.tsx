@@ -5,8 +5,9 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 
 import { RootState, useAppDispatch, useAppSelector } from '../state/store';
-import { selectCharacters, requestFetchCharacters } from '../state/characters';
+import { selectCharacters, requestFetchCharacters, selectorIsCharactersFetching } from '../state/characters';
 import CharacterLink from '../components/character/CharacterLink';
+import EmptyDataMessage from '../components/EmptyDataMessage';
 
 
 const styles = StyleSheet.create({
@@ -17,12 +18,22 @@ const styles = StyleSheet.create({
 });
 
 
+function EmptyData() {
+  const emptyDataMessage = `Not a single character has been downloaded. :(
+
+Try to pull down to refresh.`;
+
+  return <EmptyDataMessage text={emptyDataMessage} />;
+}
+
+
 export default function App() {
   const characters = useAppSelector(selectCharacters);
+  const IsCharactersFetching = useAppSelector(selectorIsCharactersFetching);
 
   const dispatch = useAppDispatch();
 
-  const onEndReached = () => {
+  const fetchCharacters = () => {
     (dispatch as ThunkDispatch<RootState, void, AnyAction>)(
       requestFetchCharacters(),
     );
@@ -35,7 +46,10 @@ export default function App() {
         renderItem={CharacterLink}
         keyExtractor={(item) => String(item.id)}
         onEndReachedThreshold={0.7}
-        onEndReached={onEndReached}
+        // onEndReached={fetchCharacters}
+        ListEmptyComponent={EmptyData}
+        onRefresh={fetchCharacters}
+        refreshing={IsCharactersFetching}
       />
     </SafeAreaView>
   );

@@ -109,3 +109,7 @@ export default charactersReducer;
 
 
 export const selectCharacters = (state: RootState) => state.characters.items as Character[];
+
+export const selectorIsCharactersFetching = (state: RootState) => (
+  (state.characters.requestStatus) === RequestStatus.Pending
+);
