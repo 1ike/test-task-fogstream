@@ -1,4 +1,5 @@
-import { View, Image, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Image } from 'react-native-expo-image-cache';
 
 import { Character } from '../../types';
 
@@ -33,7 +34,7 @@ export default function Avatar({ character }: { character: Character }) {
     <View style={[styles.avatarContainer, character.status !== 'Alive' && styles.avatarDeadContainer]}>
       <Image
         style={styles.avatar}
-        source={{ uri: character.image }}
+        uri={character.image}
       />
     </View>
   );

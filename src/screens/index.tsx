@@ -1,6 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import Entypo from '@expo/vector-icons/Entypo';
 
 import CharacterListScreen from './CharacterListScreen';
 import FavouriteListScreen from './FavouriteListScreen';
@@ -24,7 +26,21 @@ function TabNavigator() {
   return (
     <Tab.Navigator
       initialRouteName="Characters"
-      screenOptions={{ headerShown: false }}
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        // eslint-disable-next-line react/no-unstable-nested-components
+        tabBarIcon: ({ color, size }) => {
+          let iconName = 'list';
+
+          if (route.name === 'Favourites') {
+            iconName = 'heart';
+          }
+
+          return <Entypo name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: 'tomato',
+        tabBarInactiveTintColor: 'gray',
+      })}
     >
       <Tab.Screen name="Characters" component={CharacterListScreen} />
       <Tab.Screen name="Favourites" component={FavouriteListScreen} />
