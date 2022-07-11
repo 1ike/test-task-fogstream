@@ -1,27 +1,13 @@
-import { AnyAction } from 'redux';
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { Reducer } from 'react';
 import { Character } from '../types';
 import { fetchCharacters } from '../API';
 import type { AppDispatch, AppThunk, RootState } from './store';
 import { appLoadingEnd, selectAppLoading } from './appLoading';
 
 
-export const ADD_CHARACTERS = 'ADD_CHARACTERS';
-export const addCharacters = (characters: Character[]) => ({
-  type: ADD_CHARACTERS,
-  payload: characters,
-});
-
-
 export type Page = number;
-
-const SET_PAGE = 'SET_PAGE';
-const setPage = (page: Page) => ({
-  type: SET_PAGE,
-  payload: page,
-});
-
 
 export enum RequestStatus {
   Idle = 'idle',
@@ -30,26 +16,54 @@ export enum RequestStatus {
   Rejected = 'rejected',
 }
 
-const REQUEST_PENDING = 'REQUEST_PENDING';
-const requestPending = () => ({
-  type: REQUEST_PENDING,
+interface CharactersState {
+  requestStatus: RequestStatus,
+  page: Page,
+  items: Character[],
+}
+
+const initialState: CharactersState = {
+  requestStatus: RequestStatus.Idle,
+  page: 0,
+  items: [],
+};
+
+const charactersSlice = createSlice({
+  name: 'characters',
+  initialState,
+  /* eslint-disable no-param-reassign */
+  reducers: {
+    addCharacters(state, action: PayloadAction<Character[]>) {
+      state.items.push(...action.payload);
+    },
+    setPage(state, action: PayloadAction<Page>) {
+      state.page = action.payload;
+    },
+    requestPending(state) {
+      state.requestStatus = RequestStatus.Pending;
+    },
+    requestFulfilled(state) {
+      state.requestStatus = RequestStatus.Fulfilled;
+    },
+    requestRejected(state) {
+      state.requestStatus = RequestStatus.Rejected;
+    },
+  },
+  /* eslint-enable no-param-reassign */
 });
 
-const REQUEST_FULFILLED = 'REQUEST_FULFILLED';
-const requestFulfilled = () => ({
-  type: REQUEST_FULFILLED,
-});
+export const {
+  addCharacters, setPage, requestPending, requestFulfilled, requestRejected,
+} = charactersSlice.actions;
 
-const REQUEST_REJECTED = 'REQUEST_REJECTED';
-const requestRejected = () => ({
-  type: REQUEST_REJECTED,
-});
+export const charactersReducerName = charactersSlice.name;
+export default charactersSlice.reducer;
 
 
 export const requestFetchCharacters = (): AppThunk => (
   (dispatch: AppDispatch, getState: () => RootState) => {
     const state = getState();
-    const { page, requestStatus } = state.characters as CharactersState;
+    const { page, requestStatus } = state.characters;
     const isAppLoading = selectAppLoading(state);
     if (requestStatus === RequestStatus.Pending) return;
 
@@ -73,42 +87,7 @@ export const requestFetchCharacters = (): AppThunk => (
 );
 
 
-interface CharactersState {
-  requestStatus: RequestStatus,
-  page: Page,
-  items: Character[],
-}
-const initialState: CharactersState = {
-  requestStatus: RequestStatus.Idle,
-  page: 0,
-  items: [],
-};
-
-const charactersReducer: Reducer<CharactersState, AnyAction> = (
-  // eslint-disable-next-line @typescript-eslint/default-param-last
-  state = initialState,
-  { type, payload },
-): CharactersState => {
-  switch (type) {
-  case ADD_CHARACTERS:
-    return { ...state, items: state.items.concat(payload as Character[]) };
-  case SET_PAGE:
-    return { ...state, page: payload as Page };
-  case REQUEST_PENDING:
-    return { ...state, requestStatus: RequestStatus.Pending };
-  case REQUEST_FULFILLED:
-    return { ...state, requestStatus: RequestStatus.Fulfilled };
-  case REQUEST_REJECTED:
-    return { ...state, requestStatus: RequestStatus.Rejected };
-  default:
-    return state;
-  }
-};
-
-export default charactersReducer;
-
-
-export const selectCharacters = (state: RootState) => state.characters.items as Character[];
+export const selectCharacters = (state: RootState) => state.characters.items;
 
 export const selectorIsCharactersFetching = (state: RootState) => (
   (state.characters.requestStatus) === RequestStatus.Pending

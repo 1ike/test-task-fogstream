@@ -45,6 +45,8 @@ react-native-fast-image
 
 Проект выполнялся на базе Expo, поэтому `react-native-fast-image` и `react-native-config`  были заменены альтернативными решениями.
 
+В репозитории две ветки: `master` (на Redux Toolkit) и `redux` (изначально делалось на чистом redux).
+
 &nbsp;
 
 

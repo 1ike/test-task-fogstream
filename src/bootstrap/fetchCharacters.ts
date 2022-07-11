@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 

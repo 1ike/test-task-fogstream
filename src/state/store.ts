@@ -1,48 +1,34 @@
-import {
-  applyMiddleware, compose, createStore, StoreEnhancer, combineReducers, Action,
-} from 'redux';
+import { configureStore, combineReducers, Action } from '@reduxjs/toolkit';
 import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux';
 import thunk, { ThunkAction } from 'redux-thunk';
 import { persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import charactersReducer from './characters';
-import favouritesReducer from './favourites';
-import appLoadingReducer from './appLoading';
+import charactersReducer, { charactersReducerName } from './characters';
+import favouritesReducer, { favouritesReducerName } from './favourites';
+import appLoadingReducer, { appLoadingReducerName } from './appLoading';
 
 
-// const rootReducer = combineReducers({ characters: charactersReducer });
 const rootReducer = combineReducers({
-  characters: charactersReducer,
-  favourites: favouritesReducer,
-  appLoading: appLoadingReducer,
+  [charactersReducerName]: charactersReducer,
+  [favouritesReducerName]: favouritesReducer,
+  [appLoadingReducerName]: appLoadingReducer,
 });
+
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['favourites'],
+  whitelist: [favouritesReducerName],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-  }
-}
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: [thunk],
+});
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const middleware = [thunk];
-const enhancers: StoreEnhancer[] = [];
-
-const enhancer: StoreEnhancer = composeEnhancers(...[
-  applyMiddleware(...middleware),
-  ...enhancers,
-]);
-
-
-const store = createStore(persistedReducer, {}, enhancer);
 export default store;
 
 export type AppStore = typeof store;

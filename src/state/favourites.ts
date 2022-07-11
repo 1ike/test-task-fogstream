@@ -1,45 +1,38 @@
-import { AnyAction } from 'redux';
-import { Reducer } from 'react';
+import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { Character } from '../types';
 import type { RootState } from './store';
 
 
-export const ADD_FAVOURITE = 'ADD_FAVOURITE';
-export const addFavourite = (character: Character) => ({
-  type: ADD_FAVOURITE,
-  payload: character,
-});
-
-export const REMOVE_FAVOURITE = 'REMOVE_FAVOURITE';
-export const removeFavourite = (character: Character) => ({
-  type: REMOVE_FAVOURITE,
-  payload: character,
-});
-
 type FavouritesState = Character[];
+
 const initialState: FavouritesState = [];
 
-const charactersReducer: Reducer<FavouritesState, AnyAction> = (
-  // eslint-disable-next-line @typescript-eslint/default-param-last
-  state = initialState,
-  { type, payload },
-): FavouritesState => {
-  switch (type) {
-  case ADD_FAVOURITE:
-    return [...state, payload as Character];
-  case REMOVE_FAVOURITE:
-    return state.filter((character) => character.id !== (payload as Character).id);
-  default:
-    return state;
-  }
-};
+const favouritesSlice = createSlice({
+  name: 'favourites',
+  initialState,
+  /* eslint-disable no-param-reassign */
+  reducers: {
+    addFavourite(state, action: PayloadAction<Character>) {
+      state.push(action.payload);
+    },
+    removeFavourite(state, action: PayloadAction<Character>) {
+      return state.filter((character) => character.id !== action.payload.id);
+    },
+  },
+  /* eslint-enable no-param-reassign */
+});
 
-export default charactersReducer;
+export const { addFavourite, removeFavourite } = favouritesSlice.actions;
+
+export const favouritesReducerName = favouritesSlice.name;
+
+export default favouritesSlice.reducer;
 
 
-export const selectFavourites = (state: RootState) => state.favourites as FavouritesState;
+export const selectFavourites = (state: RootState) => state.favourites;
 
 const selectFavouriteIDs = createSelector(
   selectFavourites,

@@ -1,31 +1,29 @@
-import { AnyAction } from 'redux';
-import { Reducer } from 'react';
+import { createSlice } from '@reduxjs/toolkit';
 
 import type { RootState } from './store';
 
 
-export const APP_LOADING_END = 'APP_LOADING_END';
-export const appLoadingEnd = () => ({
-  type: APP_LOADING_END,
-});
-
-
 type AppLoadingState = boolean;
 
-const appLoadingReducer: Reducer<AppLoadingState, AnyAction> = (
-  // eslint-disable-next-line @typescript-eslint/default-param-last
-  state = true,
-  { type },
-): AppLoadingState => {
-  switch (type) {
-  case APP_LOADING_END:
-    return false;
-  default:
-    return state;
-  }
-};
+const initialState: AppLoadingState = true;
 
-export default appLoadingReducer;
+const appLoadingSlice = createSlice({
+  name: 'appLoading',
+  initialState,
+  /* eslint-disable no-param-reassign */
+  reducers: {
+    appLoadingEnd() {
+      return false;
+    },
+  },
+  /* eslint-enable no-param-reassign */
+});
+
+export const { appLoadingEnd } = appLoadingSlice.actions;
+
+export const appLoadingReducerName = appLoadingSlice.name;
+
+export default appLoadingSlice.reducer;
 
 
-export const selectAppLoading = (state: RootState) => state.appLoading as AppLoadingState;
+export const selectAppLoading = (state: RootState) => state.appLoading;
