@@ -8,12 +8,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import charactersReducer from './characters';
 import favouritesReducer from './favourites';
+import appLoadingReducer from './appLoading';
 
 
 // const rootReducer = combineReducers({ characters: charactersReducer });
 const rootReducer = combineReducers({
   characters: charactersReducer,
   favourites: favouritesReducer,
+  appLoading: appLoadingReducer,
 });
 const persistConfig = {
   key: 'root',

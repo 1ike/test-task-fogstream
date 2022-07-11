@@ -7,8 +7,11 @@ import Entypo from '@expo/vector-icons/Entypo';
 import CharacterListScreen from './CharacterListScreen';
 import FavouriteListScreen from './FavouriteListScreen';
 import CharacterScreen from './CharacterScreen';
+import AppLoading from '../components/AppLoading';
 import Routes from '../navigation/routes';
 import { Character as CharacterType } from '../types';
+import { useAppSelector } from '../state/store';
+import { selectAppLoading } from '../state/appLoading';
 
 
 export type StackParamList = {
@@ -24,6 +27,10 @@ export type TabParamList = {
 const Tab = createBottomTabNavigator<TabParamList>();
 
 function TabNavigator() {
+  const isAppLoading = useAppSelector(selectAppLoading);
+
+  if (isAppLoading) return <AppLoading />;
+
   return (
     <Tab.Navigator
       initialRouteName={Routes.Characters}

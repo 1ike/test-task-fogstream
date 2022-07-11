@@ -4,6 +4,7 @@ import { Reducer } from 'react';
 import { Character } from '../types';
 import { fetchCharacters } from '../API';
 import type { AppDispatch, AppThunk, RootState } from './store';
+import { appLoadingEnd, selectAppLoading } from './appLoading';
 
 
 export const ADD_CHARACTERS = 'ADD_CHARACTERS';
@@ -49,6 +50,7 @@ export const requestFetchCharacters = (): AppThunk => (
   (dispatch: AppDispatch, getState: () => RootState) => {
     const state = getState();
     const { page, requestStatus } = state.characters as CharactersState;
+    const isAppLoading = selectAppLoading(state);
     if (requestStatus === RequestStatus.Pending) return;
 
     const newPage = page + 1;
@@ -63,6 +65,9 @@ export const requestFetchCharacters = (): AppThunk => (
       .catch((error) => {
         console.error(error);
         dispatch(requestRejected());
+      })
+      .finally(() => {
+        if (isAppLoading) dispatch(appLoadingEnd());
       });
   }
 );

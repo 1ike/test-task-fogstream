@@ -7,7 +7,8 @@ import fetchCharacters from './fetchCharacters';
 export const beforeRender = async () => {
   await persist(store);
   await fonts();
-  await fetchCharacters(store);
 };
 
-export const afterRender = async () => {};
+export const afterRender = async () => {
+  await fetchCharacters(store);
+};
