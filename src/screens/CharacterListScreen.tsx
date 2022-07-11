@@ -45,8 +45,8 @@ export default function App() {
         data={characters}
         renderItem={CharacterLink}
         keyExtractor={(item) => String(item.id)}
-        onEndReachedThreshold={0.7}
-        // onEndReached={fetchCharacters}
+        onEndReachedThreshold={0.8}
+        onEndReached={fetchCharacters}
         ListEmptyComponent={EmptyData}
         onRefresh={fetchCharacters}
         refreshing={IsCharactersFetching}

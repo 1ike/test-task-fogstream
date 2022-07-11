@@ -21,7 +21,7 @@ export const removeFavourite = (character: Character) => ({
 type FavouritesState = Character[];
 const initialState: FavouritesState = [];
 
-const charactersReducer: Reducer<FavouritesState, AnyAction> = (
+const favouritesReducer: Reducer<FavouritesState, AnyAction> = (
   // eslint-disable-next-line @typescript-eslint/default-param-last
   state = initialState,
   { type, payload },
@@ -36,7 +36,7 @@ const charactersReducer: Reducer<FavouritesState, AnyAction> = (
   }
 };
 
-export default charactersReducer;
+export default favouritesReducer;
 
 
 export const selectFavourites = (state: RootState) => state.favourites as FavouritesState;
