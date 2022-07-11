@@ -4,11 +4,12 @@ import { PropsWithChildren } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import CharacterCard from './CharacterCard';
+import Routes from '../../navigation/routes';
 import { Character } from '../../types';
 import type { StackParamList } from '../../screens';
 
 
-type NavProps = NativeStackNavigationProp<StackParamList, 'Character'>;
+type NavProps = NativeStackNavigationProp<StackParamList, Routes.Character>;
 
 interface Params {
   character: Character,
@@ -40,7 +41,7 @@ function CardLink({ to, children }: PropsWithChildren<Props>) {
 
 export default function CharacterLink({ item: character }: { item: Character }) {
   return (
-    <CardLink to={{ routeName: 'Character', params: { character } }}>
+    <CardLink to={{ routeName: Routes.Character, params: { character } }}>
       <CharacterCard character={character} />
     </CardLink>
   );

@@ -7,6 +7,7 @@ import { Text } from '@rneui/themed';
 
 import CharacterCard from '../components/character/CharacterCard';
 import type { StackParamList } from '.';
+import Routes from '../navigation/routes';
 
 
 const styles = StyleSheet.create({
@@ -65,9 +66,9 @@ const detailsData: DetailData[] = [
 ];
 
 
-type Props = NativeStackScreenProps<StackParamList, 'Character'>;
+export type Props = NativeStackScreenProps<StackParamList, Routes.Character>;
 
-export default function App({ route }: Props) {
+export default function CharacterScreen({ route }: Props) {
   const { character } = route.params;
 
   return (
