@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import Constants from 'expo-constants';
+
 import { Character } from './types';
 import type { Page } from './state/characters';
 
@@ -17,11 +20,13 @@ export interface Data {
 }
 
 
+const API_URL = (Constants.manifest?.extra?.API_URL as string) || 'https://rickandmortyapi.com/api';
+
 export const fetchCharacters = (page: Page) => {
   const getParams = new URLSearchParams({ page: String(page) });
   const paramsString = getParams ? `?${getParams.toString()}` : '';
 
-  return fetch(`https://rickandmortyapi.com/api/character${paramsString}`)
+  return fetch(`${API_URL}/character${paramsString}`)
     .then((response) => response.json())
     .then((data: Data): Character[] => {
       const charactersData = data.results;
