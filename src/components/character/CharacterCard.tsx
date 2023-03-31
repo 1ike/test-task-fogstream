@@ -20,9 +20,12 @@ const styles = StyleSheet.create({
   },
   character: {
     flexDirection: 'row',
+    flexShrink: 1,
     alignItems: 'center',
   },
   title: {
+    flexShrink: 1,
+    textAlign: 'left',
     marginBottom: 0,
     marginLeft: 10,
   },
@@ -38,7 +41,7 @@ export default function CharacterCard(
 ) {
   return (
     <Card containerStyle={styles.cardContainerStyle}>
-      <View style={[styles.cardHeader, headerStyle && headerStyle]}>
+      <View style={[styles.cardHeader, headerStyle]}>
         <View style={styles.character}>
           <Avatar character={character} />
           <Card.Title style={styles.title}>{character.name}</Card.Title>
